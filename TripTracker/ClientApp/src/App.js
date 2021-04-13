@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Route } from 'react-router';
 
-import { Home } from './components/Home';
-import { Layout } from './components/Layout';
+import { Home } from './components/General/Home';
+import { Layout } from './components/General/Layout';
 
 export const App = () => {
   return (
