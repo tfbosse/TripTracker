@@ -7,7 +7,7 @@ import '../css/layout.css';
 
 export const Layout = ({ children }) => {
   return (
-    <div className='d-flex flex-column ttLayout'>
+    <div className='d-flex flex-column mask ttLayout'>
       <NavBar />
 
       <div className='container flex-grow-1'>

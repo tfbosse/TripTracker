@@ -8,7 +8,7 @@ export const NavBar = () => {
     const toggle = () => setIsOpen(!isOpen);
     
     return (
-        <Navbar className='sticky-top' color='dark' dark expand='md'>
+        <Navbar className='sticky-top' color='light' light expand='md'>
             <NavbarBrand href='/'>Trip Tracker</NavbarBrand>
 
             <NavbarToggler onClick={toggle} />
