@@ -1,16 +1,20 @@
 import React from 'react';
 
-import { Container } from 'reactstrap';
+import { Footer } from './Footer';
+import { NavBar } from './NavBar';
 
-import { NavMenu } from './NavMenu';
+import '../css/layout.css';
 
 export const Layout = ({ children }) => {
   return (
-    <div>
-      <NavMenu />
-      <Container>
+    <div className='d-flex flex-column ttLayout'>
+      <NavBar />
+
+      <div className='container flex-grow-1'>
         {children}
-      </Container>
+      </div>
+
+      <Footer />
     </div>
   );
 }
