@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { ApiUrl, HttpStatusCodes } from '../../constants/ApiConstants';
 
@@ -6,6 +6,10 @@ import { createPost } from '../../utilities/ApiUtils';
 
 export const AddTrip = ({ advanceForm }) => {
     const [tripName, setTripName] = useState('');
+
+    const nameRef = useRef(null);
+
+    useEffect(() => nameRef.current.focus(), []);
     
     const addTrip = (event) => {
         event.preventDefault();
@@ -33,8 +37,8 @@ export const AddTrip = ({ advanceForm }) => {
 
             <form>
                 <div className='d-flex'>
-                    <input className='form-control form-control-lg' onChange={changeTripName} placeholder='Trip Name...' type='text' value={tripName} />
-                    <button className='btn btn-light ml-3' onClick={addTrip} type='submit'>Add</button>
+                    <input className='form-control form-control-lg mr-3' onChange={changeTripName} placeholder='Trip Name...' ref={nameRef} type='text' value={tripName} />
+                    <button className='btn btn-light' onClick={addTrip} type='submit'>Add</button>
                 </div>
             </form>
         </div>
