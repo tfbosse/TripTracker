@@ -7,5 +7,7 @@ namespace TripTracker.Models
         public HttpStatusCode Code { get; set; }
 
         public string Message { get; set; }
+
+        public object Result { get; set; }
     }
 }

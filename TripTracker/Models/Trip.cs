@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TripTracker.Models
 {
@@ -6,6 +7,8 @@ namespace TripTracker.Models
     {
         public List<TripLeg> Legs { get; set; }
 
+        [MaxLength(256)]
+        [Required]
         public string Name { get; set; }
     }
 }
