@@ -37,7 +37,7 @@ export const AddLegVehicle = ({ homeState, homeDispatch }) => {
     return (
         <div className='align-items-center d-flex flex-column justify-content-center mt-3 text-light'>
             <div className='align-items-start d-flex flex-column mb-5'>
-                <h1>{`Tell us about the ${isFirstLeg ? 'first' : 'next'} leg of your trip`}</h1>
+                <h1>{`Tell us about the ${isFirstLeg ? 'first' : 'next'} leg of your trip.`}</h1>
                 <h2>What vehicle did you take?</h2>
             </div>
 

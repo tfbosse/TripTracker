@@ -70,7 +70,7 @@ export const AddTrip = ({ homeDispatch }) => {
             <h1 className='mb-3'>Add a new trip</h1>
 
             <form>
-                <div className='d-flex mb-1'>
+                <div className='d-flex'>
                     <input className='form-control form-control-lg mr-3' onChange={changeTripName} placeholder='Trip Name...' ref={nameRef} type='text' value={tripName} />
 
                     <button className='btn btn-light' onClick={addTrip} type='submit'>Add</button>
@@ -82,7 +82,7 @@ export const AddTrip = ({ homeDispatch }) => {
                     }
                 </div>
 
-                {!isTripNameValid && <span className='ml-1'>{errorMessage}</span>}
+                {!isTripNameValid && <span className='ml-1 mt-1'>{errorMessage}</span>}
             </form>
         </div>
     );
