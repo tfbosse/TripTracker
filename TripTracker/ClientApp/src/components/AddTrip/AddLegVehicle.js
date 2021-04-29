@@ -1,9 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const AddLegVehicle = ({ addNextLeg, resetForm, isFirstLeg }) => {
+import { useHistory } from 'react-router-dom';
+
+export const AddLegVehicle = ({ homeState, homeDispatch }) => {
     const [make, setMake] = useState('');
     const [model, setModel] = useState('');
     const [year, setYear] = useState('');
+
+    const { isFirstLeg } = homeState;
+
+    const history = useHistory();
 
     const yearRef = useRef(null);
 
@@ -18,19 +24,22 @@ export const AddLegVehicle = ({ addNextLeg, resetForm, isFirstLeg }) => {
     const submitLeg = (event) => {
         event.preventDefault();
 
-        addNextLeg();
+        homeDispatch({ fieldName: 'isFirstLeg', value: false });
+        history.push('/home/addStart');
     }
 
     const submitTrip = (event) => {
         event.preventDefault();
 
-        resetForm();
+        history.push('/home');
     };
 
     return (
         <div className='align-items-center d-flex flex-column justify-content-center mt-3 text-light'>
-            <h1>{`Tell us about the ${isFirstLeg ? 'first' : 'next'} leg of your trip`}</h1>
-            <h2>What vehicle did you take?</h2>
+            <div className='align-items-start d-flex flex-column mb-5'>
+                <h1>{`Tell us about the ${isFirstLeg ? 'first' : 'next'} leg of your trip`}</h1>
+                <h2>What vehicle did you take?</h2>
+            </div>
 
             <form>
                 <input className='form-control form-control-lg mb-3' onChange={changeYear} placeholder='ex. 2001' ref={yearRef} type='text' value={year} />

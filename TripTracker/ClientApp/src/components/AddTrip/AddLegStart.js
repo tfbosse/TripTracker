@@ -1,9 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const AddLegStart = ({ advanceForm, isFirstLeg }) => {
+import { useHistory } from 'react-router-dom';
+
+export const AddLegStart = ({ homeState }) => {
     const [startCity, setStartCity] = useState('');
     const [startDate, setStartDate] = useState('');
     const [startState, setStartState] = useState('');
+
+    const { isFirstLeg } = homeState;
+
+    const history = useHistory();
 
     const cityRef = useRef(null);
 
@@ -18,13 +24,15 @@ export const AddLegStart = ({ advanceForm, isFirstLeg }) => {
     const submitForm = (event) => {
         event.preventDefault();
 
-        advanceForm();
+        history.push('/home/addEnd')
     };
     
     return (
         <div className='align-items-center d-flex flex-column justify-content-center mt-3 text-light'>
-            <h1>{`Tell us about the ${isFirstLeg ? 'first' : 'next'} leg of your trip`}</h1>
-            <h2>How did it start?</h2>
+            <div className='align-items-start d-flex flex-column mb-5'>
+                <h1>{`Tell us about the ${isFirstLeg ? 'first' : 'next'} leg of your trip`}</h1>
+                <h2>How did it start?</h2>
+            </div>
 
             <form>
                 <div className='d-flex mb-3'>
