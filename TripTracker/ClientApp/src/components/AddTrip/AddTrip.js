@@ -5,12 +5,11 @@ import { useHistory } from 'react-router-dom';
 import { ApiUrl, HttpStatusCodes } from '../../constants/ApiConstants';
 
 import { createPost } from '../../utilities/ApiUtils';
-import { isNullUndefinedOrEmpty } from '../../utilities/ObjectUtilities';
+import { isNullUndefinedOrEmpty } from '../../utilities/ObjectUtils';
 
 export const AddTrip = ({ homeDispatch }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isTripNameValid, setIsTripNameValid] = useState(true);
     const [tripName, setTripName] = useState('');
 
     const nameRef = useRef(null);
@@ -25,7 +24,6 @@ export const AddTrip = ({ homeDispatch }) => {
         event.preventDefault();
 
         const isValid = validateTripName(tripName);
-        setIsTripNameValid(isValid);
 
         if (isValid) {
             let body = {
@@ -48,7 +46,7 @@ export const AddTrip = ({ homeDispatch }) => {
 
     const changeTripName = (event) => {
         setTripName(event.target.value);
-        setIsTripNameValid(validateTripName(event.target.value));
+        validateTripName(event.target.value);
     }
 
     const validateTripName = (name) => {
@@ -67,7 +65,7 @@ export const AddTrip = ({ homeDispatch }) => {
     
     return (
         <div className='align-items-center d-flex flex-column justify-content-center mt-3 text-light'>
-            <h1 className='mb-3'>Add a new trip</h1>
+            <h1 className='mb-3'>Add a new trip.</h1>
 
             <form>
                 <div className='d-flex'>
@@ -82,7 +80,7 @@ export const AddTrip = ({ homeDispatch }) => {
                     }
                 </div>
 
-                {!isTripNameValid && <span className='ml-1 mt-1'>{errorMessage}</span>}
+                {errorMessage && <span className='ml-1 mt-1'>{errorMessage}</span>}
             </form>
         </div>
     );

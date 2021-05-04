@@ -37,7 +37,7 @@ export const AddLegEnd = ({ homeState }) => {
             <form>
                 <div className='d-flex mb-3'>
                     <input className='form-control form-control-lg mr-3' onChange={changeEndCity} placeholder='ex. Jefferson City' ref={cityRef} type='text' value={endCity} />
-                    <select className='form-select form-select-lg' onChange={changeEndState} value={endState}>
+                    <select className='form-select form-control-lg' onChange={changeEndState} value={endState}>
                         <option disabled value=''>State...</option>
                         <option value='DC'>DC</option>
                         <option value='TN'>TN</option>
