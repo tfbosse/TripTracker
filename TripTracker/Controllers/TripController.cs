@@ -22,6 +22,7 @@ namespace TripTracker.Controllers
         }
 
         [HttpPost]
+        [Route("addTrip")]
         public ServiceResponse AddTrip(Trip trip)
         {
             int result = -1;
@@ -43,7 +44,7 @@ namespace TripTracker.Controllers
                 return new ServiceResponse
                 {
                     Code = HttpStatusCode.Created,
-                    Message = $"Success! Added: \"{trip.Name}\"",
+                    Message = $"Success! Added: \"{trip.Name}\".",
                     Result = result
                 };
             } catch (SqlException exception)
@@ -54,9 +55,42 @@ namespace TripTracker.Controllers
             return new ServiceResponse
             {
                 Code = HttpStatusCode.InternalServerError,
-                Message = $"Failed to add: \"{trip.Name}\""
+                Message = $"Failed to add: \"{trip.Name}\"."
             };
             
+        }
+
+        [HttpPost]
+        [Route("addLeg")]
+        public ServiceResponse AddLeg(TripLeg leg)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(DatabaseUtilities.GetConnectionString(this._configuration)))
+                {
+                    connection.Open();
+
+                    using (var command = new SqlCommand("dbo.uspInsertLeg", connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                return new ServiceResponse
+                {
+                    Code = HttpStatusCode.Created,
+                    Message = "Success! Added leg."
+                };
+            } catch (SqlException exception)
+            {
+                // Add Logging
+            }
+
+            return new ServiceResponse
+            {
+                Code = HttpStatusCode.InternalServerError,
+                Message = "Failed to add leg."
+            };
         }
     }
 }

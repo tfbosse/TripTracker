@@ -31,7 +31,7 @@ export const AddTrip = ({ homeDispatch }) => {
             };
     
             setIsLoading(true);
-            fetch(ApiUrl, createPost(body))
+            fetch(`${ApiUrl}/trip/addTrip`, createPost(body))
                 .then(response => response.json())
                 .then(data => {
                     if (data.code === HttpStatusCodes.Created) {
@@ -40,7 +40,7 @@ export const AddTrip = ({ homeDispatch }) => {
                 })
                 .finally(() => {
                     setIsLoading(false);
-                })
+                });
         }
     }
 

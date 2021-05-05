@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TripTracker.Models
 {
@@ -10,9 +11,14 @@ namespace TripTracker.Models
 
         public double Mileage { get; set; }
 
+        [Required]
         public DateTime StartDate { get; set; }
 
+        [Required]
         public TripLocation StartLocation { get; set; }
+
+        [Required]
+        public int TripId { get; set; }
 
         public TripVehicle Vehicle { get; set; }
     }

@@ -9,14 +9,16 @@ import { getDateDays, getDateYears } from '../../utilities/DateUtils';
 import { isNullUndefinedOrEmpty } from '../../utilities/ObjectUtils';
 
 export const AddLegStart = ({ homeState }) => {
-    const [cityStateErrorMessage, setCityStateErrorMessage] = useState('');
+    const [cityErrorMessage, setCityErrorMessage] = useState('');
     const [dateErrorMessage, setDateErrorMessage] = useState('');
+    const [hasValidatedOnce, setHasValidatedOnce] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [startCity, setStartCity] = useState('');
     const [startDateDay, setStartDateDay] = useState(0);
     const [startDateMonth, setStartDateMonth] = useState(0);
     const [startDateYear, setStartDateYear] = useState(0);
     const [startState, setStartState] = useState('');
+    const [stateErrorMessage, setStateErrorMessage] = useState('');
 
     const { isFirstLeg } = homeState;
 
@@ -28,39 +30,64 @@ export const AddLegStart = ({ homeState }) => {
 
     const changeStartCity = (event) => {
         setStartCity(event.target.value);
-        validateLocation(event.target.value, startState);
+        validateCity(event.target.value);
     };
 
     const changeStartDateDay = (event) => {
         setStartDateDay(event.target.value);
-        validateDate(startDateMonth, event.target.value, startDateYear);
+        if (hasValidatedOnce) validateDate(startDateMonth, event.target.value, startDateYear);
     };
 
     const changeStartDateMonth = (event) => {
         setStartDateMonth(event.target.value);
-        validateDate(event.target.value, startDateDay, startDateYear);
+        if (hasValidatedOnce) validateDate(event.target.value, startDateDay, startDateYear);
     };
 
     const changeStartDateYear = (event) => {
         setStartDateYear(event.target.value);
-        validateDate(startDateMonth, startDateDay, event.target.value);
+        if (hasValidatedOnce) validateDate(startDateMonth, startDateDay, event.target.value);
     };
 
     const changeStartState = (event) => {
         setStartState(event.target.value);
-        validateLocation(startCity, event.target.value);
+        if (hasValidatedOnce) validateState(event.target.value);
     };
 
     const submitForm = (event) => {
         event.preventDefault();
 
-        const isValid = validateLocation(startCity, startState)
+        const isValid = validateState(startState)
+            & validateCity(startCity)
             & validateDate(startDateMonth, startDateDay, startDateYear);
+
+        setHasValidatedOnce(true);
 
         if (isValid) {
             setIsLoading(true);
-            history.push('/home/addEnd');
+
+            let body = {
+                StartDate: `${startDateDay}/${startDateMonth}/${startDateYear}`,
+                StartLocation: {
+                    City: startCity,
+                    State: startState
+                },
+                TripId: 1
+            };
         }      
+    };
+
+    const validateCity = (city) => {
+        if (isNullUndefinedOrEmpty(city)){
+            setCityErrorMessage('Please enter a city!');
+            return false;
+        }
+        if (typeof(city) === 'string' && city.length > 256) {
+            setCityErrorMessage('Please limit the city to 256 characters or fewer!');
+            return false;
+        }
+
+        setCityErrorMessage('');
+        return true;
     };
 
     const validateDate = (month, day, year) => {
@@ -81,21 +108,13 @@ export const AddLegStart = ({ homeState }) => {
         return true;
     }
 
-    const validateLocation = (city, state) => {
-        if (isNullUndefinedOrEmpty(city)){
-            setCityStateErrorMessage('Please enter a city!');
-            return false;
-        } 
+    const validateState = (state) => {
         if (isNullUndefinedOrEmpty(state)) {
-            setCityStateErrorMessage('Please select a state!');
+            setStateErrorMessage('Please select a state!');
             return false;
         }
-        if (typeof(city) === 'string' && city.length > 256) {
-            setCityStateErrorMessage('Please limit the city to 256 characters or fewer!');
-            return false;
-        }
-
-        setCityStateErrorMessage('');
+        
+        setStateErrorMessage('');
         return true;
     };
 
@@ -111,15 +130,15 @@ export const AddLegStart = ({ homeState }) => {
                     <input className='form-control form-control-lg mr-3' onChange={changeStartCity} placeholder='ex. Jefferson City' ref={cityRef} type='text' value={startCity} />
                     <select className='form-select form-control-lg' onChange={changeStartState} value={startState}>
                         <option disabled value=''>State</option>
-                        {[...StateAbbreviations].map((abbreviation) => <option value={abbreviation}>{abbreviation}</option>)}
+                        {[...StateAbbreviations].map((abbreviation, index) => <option key={index} value={abbreviation}>{abbreviation}</option>)}
                     </select>
                 </div>
-                {cityStateErrorMessage && <span className='ml-1 mt-1'>{cityStateErrorMessage}</span>}
+                {(cityErrorMessage || stateErrorMessage) && <span className='ml-1 mt-1'>{cityErrorMessage || stateErrorMessage}</span>}
                 
                 <div>
                     <select className='form-select form-control-lg mr-3 mt-3' onChange={changeStartDateMonth} value={startDateMonth}>
                         <option disabled value={0}>Month</option>
-                        {[...DateMonthOptions].map((month, index) => <option value={index + 1}>{month}</option>)}
+                        {[...DateMonthOptions].map((month, index) => <option key={index} value={index + 1}>{month}</option>)}
                     </select>
 
                     <select className='form-select form-control-lg mr-3 mt-3' onChange={changeStartDateDay} value={startDateDay}>

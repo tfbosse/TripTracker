@@ -7,7 +7,7 @@ export const getDateDays = (month) => {
     
     return (
         <>
-            {[...Array(days)].map((e, i) => <option value={i + 1}>{i + 1}</option>)}
+            {[...Array(days)].map((e, i) => <option key={i} value={i + 1}>{i + 1}</option>)}
         </>
     );
 };
@@ -15,7 +15,7 @@ export const getDateDays = (month) => {
 export const getDateYears = (startDate) => {
     return(
         <>
-            {[...Array(new Date().getFullYear() - startDate + 1)].map((e, i) => <option value={i + startDate}>{i + startDate}</option>)}
+            {[...Array(new Date().getFullYear() - startDate + 1)].map((e, i) => <option key={i} value={i + startDate}>{i + startDate}</option>)}
         </>
     );
 };
